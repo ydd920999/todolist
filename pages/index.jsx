@@ -46,6 +46,8 @@ export default function Home() {
     const hCount = Math.floor(height / singel);
     const theme =  getStorageItem(THEME) || LIGHT
     const color = theme === LIGHT ? "#00000080" : "#ffffff66";
+
+   
     for (let i = 0; i < hCount; i++) {
       for (let j = 0; j < wCount; j++) {
         drawPoint({ x: j * singel + 1, y: i * singel + 1 }, color);
@@ -73,7 +75,7 @@ export default function Home() {
       return toggleTheme();
     }
     if ((e.code === "KeyR" || e.keyCode === 82) && e.altKey) {
-      const bool = window.confirm('Are you sure you want to remove all to dos')
+      const bool = window.confirm('你确定要删除所有待办事项吗?')
       if(!bool) return;
       setManifestList([])
       setStorageItem(TODOLIST, [])
@@ -276,7 +278,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Todolist panel</title>
+        <title>Todolist面板</title>
         <meta name="description" content="a quick to-do panel management tool" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -303,7 +305,7 @@ export default function Home() {
               <span className={styles.close}  onClick={(e) => handlerDelManifest(item,e)}>一</span>
               <span className={styles.drag}  style={{ cursor: isDragDown ? 'grabbing' : 'grab' }} onMouseDown={(e) => hanlderManifestMouseDown(item, e)}></span>
             </div>
-            <textarea className={styles.input} style={{ cursor: isDragDown ? 'grabbing' : 'text' }}  onInput={ (e) => hanlderEditManifest(e, item)} value={item.text} placeholder="Try adding a to-do"></textarea>
+            <textarea className={styles.input} style={{ cursor: isDragDown ? 'grabbing' : 'text' }}  onInput={ (e) => hanlderEditManifest(e, item)} value={item.text} placeholder="请添加待办事项"></textarea>
             <div className={styles.resize} onMouseDown={ (e) => handlerResizeManfest(e,item)}></div>
           </div>
         ))}
