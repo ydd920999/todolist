@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { getRandomId } from '../utils/tools'
 import { getStorageItem, setStorageItem } from '../utils/storage'
-import { TODOLIST, THEME, LIGHT, DARK, defaultTodo } from '../constants/index'
+import { TODOLIST, THEME, LIGHT, DARK, PINK, SUNSET, defaultTodo } from '../constants/index'
 
 export default function Home() {
   const cvsRef = useRef();
@@ -45,7 +45,7 @@ export default function Home() {
     const wCount = Math.floor(width / singel);
     const hCount = Math.floor(height / singel);
     const theme =  getStorageItem(THEME) || LIGHT
-    const color = theme === LIGHT ? "#00000080" : "#ffffff66";
+    const color = (theme === DARK || theme === SUNSET) ? "#ffffff66" : "#00000080";
 
    
     for (let i = 0; i < hCount; i++) {
@@ -245,30 +245,37 @@ export default function Home() {
     const body = document.querySelector("body");
     const storageTheme = getStorageItem(THEME)
     if(storageTheme){
-      if (storageTheme === DARK) {
-        body.classList.add(DARK);
-        setStorageItem(THEME, DARK);
-      } else {
-        body.classList.remove(DARK);
-        setStorageItem(THEME, LIGHT);
-      }
+      body.classList.remove(DARK, LIGHT, PINK, SUNSET);
+      body.classList.add(storageTheme);
       return;
     }
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       body.classList.add(DARK);
       setStorageItem(THEME, DARK);
+    } else {
+      body.classList.add(LIGHT);
+      setStorageItem(THEME, LIGHT);
     }
   }
 
   /* 修改主题色 */
   function toggleTheme(){
     const body = document.querySelector("body");
-    const themeMode =  getStorageItem(THEME)
+    const themeMode =  getStorageItem(THEME) || LIGHT
+    body.classList.remove(DARK, LIGHT, PINK, SUNSET);
+    
+    // 循环切换四个主题: LIGHT -> DARK -> PINK -> SUNSET -> LIGHT
     if (themeMode === LIGHT) {
       body.classList.add(DARK);
       setStorageItem(THEME, DARK);
+    } else if (themeMode === DARK) {
+      body.classList.add(PINK);
+      setStorageItem(THEME, PINK);
+    } else if (themeMode === PINK) {
+      body.classList.add(SUNSET);
+      setStorageItem(THEME, SUNSET);
     } else {
-      body.classList.remove(DARK);
+      body.classList.add(LIGHT);
       setStorageItem(THEME, LIGHT);
     }
     draw()

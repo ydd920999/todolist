@@ -2,6 +2,8 @@ export const TODOLIST = "TODOLIST";
 export const THEME = "TODO_THEME";
 export const DARK = "DARK";
 export const LIGHT = "LIGHT";
+export const PINK = "PINK";
+export const SUNSET = "SUNSET";
 export const defaultTodo = [
   {
     position: {
